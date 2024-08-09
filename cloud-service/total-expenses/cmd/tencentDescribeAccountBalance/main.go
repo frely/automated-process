@@ -3,6 +3,7 @@ package tencentDescribeAccountBalance
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	billing "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/billing/v20180709"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
@@ -31,12 +32,14 @@ func Get() string {
 	response, err := client.DescribeAccountBalance(request)
 	if _, ok := err.(*errors.TencentCloudSDKError); ok {
 		fmt.Printf("An API error has returned: %s", err)
-		return ""
 	}
 	if err != nil {
 		panic(err)
 	}
 	// 输出json格式的字符串回包
 	//fmt.Printf("%s", response.ToJsonString())
-	return response.ToJsonString()
+
+	res := strconv.Itoa(int(*response.Response.CashAccountBalance))
+	resStr := res[0:len(res)-2] + "." + res[len(res)-2:]
+	return resStr
 }
