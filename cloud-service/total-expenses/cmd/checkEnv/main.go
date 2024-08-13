@@ -5,7 +5,15 @@ import (
 	"os"
 )
 
-func Check() {
+func CheckAliyun() {
+	if os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_ID") == "" {
+		fmt.Println("ALIBABA_CLOUD_ACCESS_KEY_ID Not Find")
+		os.Exit(0)
+	}
+	if os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_SECRET") == "" {
+		fmt.Println("ALIBABA_CLOUD_ACCESS_KEY_SECRET Not Find")
+		os.Exit(0)
+	}
 	if os.Getenv("POSTGRES_HOST") == "" {
 		fmt.Println("POSTGRES_HOST Not Find")
 		os.Exit(0)
