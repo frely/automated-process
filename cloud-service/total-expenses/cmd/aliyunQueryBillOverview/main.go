@@ -241,13 +241,13 @@ func checkSqlTable(data []byte) {
 				"CashAmount" NUMERIC NOT NULL
 				);`, v)
 			rows2, err := db.Query(sqlData)
-			defer rows2.Close()
 			if err != nil {
 				log.Println(err)
 			}
 			if err := rows2.Err(); err != nil {
 				log.Fatalln("创建表失败", err)
 			}
+			rows2.Close()
 		}
 	}
 }
@@ -342,11 +342,10 @@ func writeSql(data []byte) {
 		if err != nil {
 			log.Fatalln("sql执行失败: ", err, sqlData)
 		}
-		defer rows.Close()
-
 		if err := rows.Err(); err != nil {
 			log.Fatalln("sql执行失败", err)
 		}
+		rows.Close()
 	}
 	log.Println("写入数据完成")
 }
