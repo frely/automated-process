@@ -214,31 +214,31 @@ func checkSqlTable(data []byte) {
 		for _, v := range creatTableName {
 			sqlData := fmt.Sprintf(`
 				CREATE TABLE "public"."%s" (
-				BillingCycle VARCHAR(7) NOT NULL,
-				DeductedByCoupons NUMERIC NOT NULL,
-				RoundDownDiscount NUMERIC NOT NULL,
-				ProductName VARCHAR(100) NOT NULL,
-				ProductDetail VARCHAR(100) NOT NULL,
-				ProductCode VARCHAR(100) NOT NULL,
-				BillAccountID VARCHAR(100) NOT NULL,
-				ProductType VARCHAR(100),
-				DeductedByCashCoupons NUMERIC NOT NULL,
-				OutstandingAmount NUMERIC NOT NULL,
-				BizType VARCHAR(100),
-				PaymentAmount NUMERIC NOT NULL,
-				PipCode VARCHAR(100),
-				DeductedByPrepaidCard NUMERIC NOT NULL,
-				InvoiceDiscount NUMERIC NOT NULL,
-				Item VARCHAR(100),
-				SubscriptionType VARCHAR(100),
-				PretaxGrossAmount NUMERIC NOT NULL,
-				PretaxAmount NUMERIC NOT NULL,
-				OwnerID VARCHAR(100),
-				Currency VARCHAR(100),
-				CommodityCode VARCHAR(100),
-				BillAccountName VARCHAR(100),
-				AdjustAmount NUMERIC NOT NULL,
-				CashAmount NUMERIC NOT NULL
+				"BillingCycle" VARCHAR(7) NOT NULL,
+				"DeductedByCoupons" NUMERIC NOT NULL,
+				"RoundDownDiscount" NUMERIC NOT NULL,
+				"ProductName" VARCHAR(200) NOT NULL,
+				"ProductDetail" VARCHAR(200) NOT NULL,
+				"ProductCode" VARCHAR(200) NOT NULL,
+				"BillAccountID" VARCHAR(200) NOT NULL,
+				"ProductType" VARCHAR(200),
+				"DeductedByCashCoupons" NUMERIC NOT NULL,
+				"OutstandingAmount" NUMERIC NOT NULL,
+				"BizType" VARCHAR(200),
+				"PaymentAmount" NUMERIC NOT NULL,
+				"PipCode" VARCHAR(200),
+				"DeductedByPrepaidCard" NUMERIC NOT NULL,
+				"InvoiceDiscount" NUMERIC NOT NULL,
+				"Item" VARCHAR(200),
+				"SubscriptionType" VARCHAR(200),
+				"PretaxGrossAmount" NUMERIC NOT NULL,
+				"PretaxAmount" NUMERIC NOT NULL,
+				"OwnerID" VARCHAR(200),
+				"Currency" VARCHAR(200),
+				"CommodityCode" VARCHAR(200),
+				"BillAccountName" VARCHAR(200),
+				"AdjustAmount" NUMERIC NOT NULL,
+				"CashAmount" NUMERIC NOT NULL
 				);`, v)
 			rows2, err := db.Query(sqlData)
 			defer rows2.Close()
@@ -311,7 +311,7 @@ func writeSql(data []byte) {
 	defer db.Close()
 
 	for _, i := range p.Item {
-		sqlData := fmt.Sprintf(`INSERT INTO "%s"(billingcycle, deductedbycoupons, rounddowndiscount, productname, productdetail, productcode, billaccountid, producttype, deductedbycashcoupons, outstandingamount, biztype, paymentamount, pipcode, deductedbyprepaidcard, invoicediscount, item, subscriptiontype, pretaxgrossamount, pretaxamount, ownerid, currency, commoditycode, billaccountname, adjustamount, cashamount) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')`,
+		sqlData := fmt.Sprintf(`INSERT INTO "%s"("BillingCycle", "DeductedByCoupons", "RoundDownDiscount", "ProductName", "ProductDetail", "ProductCode", "BillAccountID", "ProductType", "DeductedByCashCoupons", "OutstandingAmount", "BizType", "PaymentAmount", "PipCode", "DeductedByPrepaidCard", "InvoiceDiscount", "Item", "SubscriptionType", "PretaxGrossAmount", "PretaxAmount", "OwnerID", "Currency", "CommodityCode", "BillAccountName", "AdjustAmount", "CashAmount") VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')`,
 			i.ProductCode,
 			billingcycle,
 			strconv.FormatFloat(i.DeductedByCoupons, 'f', 2, 64),
