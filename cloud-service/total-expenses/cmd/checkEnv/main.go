@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func checkEnv (
+func checkEnv() {
 	if os.Getenv("POSTGRES_HOST") == "" {
 		fmt.Println("POSTGRES_HOST Not Find")
 		os.Exit(0)
@@ -26,7 +26,7 @@ func checkEnv (
 		fmt.Println("POSTGRES_PASSWORD Not Find")
 		os.Exit(0)
 	}
-)
+}
 
 func CheckAliyun() {
 	checkEnv()
