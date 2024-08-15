@@ -1,6 +1,6 @@
 module github.com/automated-process/total-expenses
 
-go 1.22.6
+go 1.23.0
 
 require (
 	github.com/alibabacloud-go/bssopenapi-20171214/v5 v5.0.1
