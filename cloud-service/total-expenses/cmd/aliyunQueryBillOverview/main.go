@@ -242,10 +242,7 @@ func checkSqlTable(data []byte) {
 				);`, v)
 			rows2, err := db.Query(sqlData)
 			if err != nil {
-				log.Println(err)
-			}
-			if err := rows2.Err(); err != nil {
-				log.Fatalln("创建表失败", err)
+				log.Fatalln(err)
 			}
 			rows2.Close()
 		}
@@ -341,9 +338,6 @@ func writeSql(data []byte) {
 		rows, err := db.Query(sqlData)
 		if err != nil {
 			log.Fatalln("sql执行失败: ", err, sqlData)
-		}
-		if err := rows.Err(); err != nil {
-			log.Fatalln("sql执行失败", err)
 		}
 		rows.Close()
 	}
