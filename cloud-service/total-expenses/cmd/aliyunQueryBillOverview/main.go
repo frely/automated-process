@@ -243,7 +243,140 @@ func checkSqlTable(data []byte) {
 			rows2, err := db.Query(sqlData)
 			rows2.Close()
 			if err != nil {
-				log.Fatalln(err)
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."BillingCycle" IS '账期'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."DeductedByCoupons" IS '优惠劵抵扣'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."RoundDownDiscount" IS '抹零优惠'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."ProductName" IS '产品名称'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."ProductDetail" IS '产品明细'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."ProductCode" IS '产品代码'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."BillAccountID" IS '账单所属账号ID'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."ProductType" IS '产品类型'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."DeductedByCashCoupons" IS '代金券抵扣'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."OutstandingAmount" IS '未结清金额或信用结算金额（普通用户的欠费，或者信用客户信用额度消耗）'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."BizType" IS '业务类型'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."PaymentAmount" IS '现金支付（含信用额度退款抵扣）'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."PipCode" IS '产品Code，与费用中心账单产品Code一致'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."DeductedByPrepaidCard" IS '储蓄卡抵扣'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."InvoiceDiscount" IS '优惠金额'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."PretaxGrossAmount" IS '原始金额'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."PretaxAmount" IS '应付金额'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."OwnerID" IS '账单OwnerID'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."CommodityCode" IS '商品Code，与费用中心产品明细Code一致'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."BillAccountName" IS '账单所属账号名称'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."AdjustAmount" IS '信用额度退款抵扣'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
+			}
+			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."CashAmount" IS '现金支付（不包含信用额度退款抵扣）'`, v)
+			rows2, err = db.Query(sqlData)
+			rows2.Close()
+			if err != nil {
+				log.Fatalln("sql执行失败: ", sqlData, err)
 			}
 		}
 	}
@@ -338,7 +471,7 @@ func writeSql(data []byte) {
 		rows, err := db.Query(sqlData)
 		rows.Close()
 		if err != nil {
-			log.Fatalln("sql执行失败: ", err, sqlData)
+			log.Fatalln("sql执行失败: ", sqlData, err)
 		}
 	}
 	log.Println("写入数据完成")
