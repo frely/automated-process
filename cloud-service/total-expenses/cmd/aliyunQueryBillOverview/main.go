@@ -241,10 +241,10 @@ func checkSqlTable(data []byte) {
 				"CashAmount" NUMERIC NOT NULL
 				);`, v)
 			rows2, err := db.Query(sqlData)
+			rows2.Close()
 			if err != nil {
 				log.Fatalln(err)
 			}
-			rows2.Close()
 		}
 	}
 }
@@ -336,10 +336,10 @@ func writeSql(data []byte) {
 			strconv.FormatFloat(i.AdjustAmount, 'f', 2, 64),
 			strconv.FormatFloat(i.CashAmount, 'f', 2, 64))
 		rows, err := db.Query(sqlData)
+		rows.Close()
 		if err != nil {
 			log.Fatalln("sql执行失败: ", err, sqlData)
 		}
-		rows.Close()
 	}
 	log.Println("写入数据完成")
 }

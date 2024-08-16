@@ -220,10 +220,10 @@ func checkSqlTable(data []byte) {
 				"VoucherPayAmount" NUMERIC NOT NULL,
 				"ZoneName" VARCHAR(200) NOT NULL);`, v)
 			rows2, err := db.Query(sqlData)
+			rows2.Close()
 			if err != nil {
 				log.Println(err)
 			}
-			rows2.Close()
 		}
 	}
 }
@@ -330,10 +330,10 @@ func writeSql(data []byte) {
 			i.ZoneName)
 
 		rows, err := db.Query(sqlData)
+		rows.Close()
 		if err != nil {
 			log.Fatalln("sql执行失败 func writeSql(): ", err, sqlData)
 		}
-		rows.Close()
 	}
 	log.Println("写入数据完成")
 }
