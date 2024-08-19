@@ -196,7 +196,7 @@ func checkSqlTable() {
 				{"BusinessCode", "产品名称代码"},
 				{"BusinessCodeName", "产品名称"},
 				{"CashPayAmount", "现金支付金额"},
-				{"PayerUin", "账单所属账号ID"},
+				{"OwnerUin", "账单所属账号ID"},
 				{"RealTotalCost", "实际总成本"},
 				{"TotalCost", "总成本"},
 				{"TransferPayAmount", "转账付款金额"},
