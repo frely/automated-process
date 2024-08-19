@@ -1,0 +1,6 @@
+github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
+github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.986 h1:tAE1O6CvYjeYSelry6j3Qz+6nWPVZa2lB0hcR0tnY44=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.986/go.mod h1:r5r4xbfxSaeR04b166HGsBa/R4U3SueirEUpXGuw+Q0=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.986 h1:Tdc/zJ+duVEF2OnPBciVBEv0xla0eJUd0DSNyU+gexY=
+github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod v1.0.986/go.mod h1:XRF6sh1NmbmUhia7VyiNhakj5e77KxIP5BGNykziIVw=
