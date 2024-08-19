@@ -1,7 +1,7 @@
 package tencentDescribeAccountBalance
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -31,7 +31,7 @@ func Get() string {
 	// 返回的resp是一个DescribeAccountBalanceResponse的实例，与请求对象对应
 	response, err := client.DescribeAccountBalance(request)
 	if _, ok := err.(*errors.TencentCloudSDKError); ok {
-		fmt.Printf("An API error has returned: %s", err)
+		log.Fatalf("An API error has returned: %s", err)
 	}
 	if err != nil {
 		panic(err)
