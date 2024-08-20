@@ -173,7 +173,7 @@ func writeSql(data []byte, domain string) {
 				strconv.Itoa(i.MX),
 				i.MonitorStatus,
 				i.Name,
-				i.Name+"."+domain,
+				domain,
 				strconv.Itoa(i.RecordId),
 				i.Remark,
 				i.Status,
