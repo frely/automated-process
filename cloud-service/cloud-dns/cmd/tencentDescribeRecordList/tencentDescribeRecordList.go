@@ -64,6 +64,7 @@ func Tosql() {
 		// 限制速率，避免请求失败
 		time.Sleep(3 * time.Second)
 	}
+	SslCheck(GetCheckList())
 }
 
 func getRecordList(domain string) string {
