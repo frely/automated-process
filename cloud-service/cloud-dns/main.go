@@ -5,4 +5,6 @@ func main() {
 	//checkEnv.CheckTencent()
 	//fmt.Println(tencentDescribeDomainList.Get())
 	//tencentDescribeRecordList.Tosql()
+	//fmt.Println(tencentDescribeRecordList.GetCheckList())
+	//tencentDescribeRecordList.SslCheck(tencentDescribeRecordList.GetCheckList())
 }

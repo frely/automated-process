@@ -1,12 +1,15 @@
 package tencentDescribeRecordList
 
 import (
+	"crypto/tls"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/automated-process/cloud-dns/cmd/tencentDescribeDomainList"
@@ -139,12 +142,28 @@ func checkSqlTable() {
 				"TTL" INTEGER NOT NULL,
 				"Type" VARCHAR(200) NOT NULL,
 				"UpdatedOn" VARCHAR(200) NOT NULL,
-				"Value" VARCHAR(200) NOT NULL
+				"Value" VARCHAR(200) NOT NULL,
+				"NotBefore" VARCHAR(200),
+				"NotAfter" VARCHAR(200),
+				"Subject" VARCHAR(200)
 				);`
 			rows2, err := db.Query(sqlData)
 			rows2.Close()
 			if err != nil {
 				log.Fatalln("创建表失败：", err)
+			}
+			commitList := [][]string{
+				{"NotBefore", "颁发日期"},
+				{"NotAfter", "到期日期"},
+				{"Subject", "DNS名称"},
+			}
+			for _, v := range commitList {
+				sqlData := fmt.Sprintf(`COMMENT ON COLUMN "tencentDomainList"."%s" IS '%s'`, v[0], v[1])
+				rows3, err := db.Query(sqlData)
+				rows3.Close()
+				if err != nil {
+					log.Fatalln("添加注释失败: ", sqlData, err)
+				}
 			}
 		}
 	}
@@ -210,4 +229,79 @@ func writeSql(data []byte, domain string) {
 		}
 	}
 	log.Println("写入数据完成")
+}
+
+func GetCheckList() []string {
+	db, err := sql.Open("postgres", sqlConnStr)
+	if err != nil {
+		log.Fatalln("连接数据库失败", err)
+	}
+	defer db.Close()
+
+	rows, err := db.Query(`select "Domain" from public."tencentDomainList" where "Status" = 'ENABLE'`)
+	defer rows.Close()
+	if err != nil {
+		log.Fatalln("查询表失败：", err)
+	}
+	domainList := []string{}
+	for rows.Next() {
+		var domain string
+		err := rows.Scan(&domain)
+		if err != nil {
+			log.Fatalln("获取表失败", err)
+		}
+		domainList = append(domainList, domain)
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatalln("查询sql失败", err)
+	}
+
+	return domainList
+}
+
+func SslCheck(domainList []string) {
+	var cstSh, _ = time.LoadLocation("Asia/Shanghai")
+	nowTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().In(cstSh).Format("2006-01-02 15:04:05"))
+
+	db, err := sql.Open("postgres", sqlConnStr)
+	if err != nil {
+		log.Fatalln("连接数据库失败", err)
+	}
+	defer db.Close()
+
+	dialer := net.Dialer{Timeout: time.Second * 3}
+
+	for _, domain := range domainList {
+		log.Println("======== 开始检查：", domain)
+		conn, err := tls.DialWithDialer(&dialer, "tcp", domain+":443", nil)
+		if err != nil {
+			log.Println("连接错误或未配置证书：", domain)
+		} else {
+			cert := conn.ConnectionState().PeerCertificates[0]
+
+			// 时间信息
+			//fmt.Printf("NotBefore: %v\n", cert.NotBefore.In(cstSh))
+			//fmt.Printf("NotAfter: %v\n", cert.NotAfter.In(cstSh))
+			//fmt.Printf("Issuer: %v\n", cert.Issuer)
+			//fmt.Printf("Subject: %v\n", cert.Subject)
+
+			endTime, _ := time.Parse("2006-01-02 15:04:05", cert.NotAfter.In(cstSh).Format("2006-01-02 15:04:05"))
+			d := endTime.Sub(nowTime).Hours() / 24
+			dStr := strings.Split(strconv.FormatFloat(d, 'g', -1, 64), ".")
+			dInt, _ := strconv.Atoi(dStr[0])
+
+			if dInt < 0 {
+				log.Printf("%s：证书已到期", domain)
+			} else {
+				log.Printf("%s：到期时间还有%d天", domain, dInt)
+			}
+
+			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Domain"='%s'`, cert.NotBefore.In(cstSh), cert.NotAfter.In(cstSh), cert.Subject, domain)
+			rows, err := db.Query(sqlData)
+			defer rows.Close()
+			if err != nil {
+				log.Fatalln("写入表失败：", err, sqlData)
+			}
+		}
+	}
 }
