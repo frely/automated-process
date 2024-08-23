@@ -122,10 +122,10 @@ func CheckSqlTable() {
 			log.Println("清空表")
 			sqlData := `TRUNCATE TABLE "tencentDomainList"`
 			rows2, err := db.Query(sqlData)
-			rows2.Close()
 			if err != nil {
 				log.Fatalln("清空表失败：", err)
 			}
+			rows2.Close()
 		} else {
 			log.Println("创建表：tencentDomainList")
 			sqlData := `
@@ -148,10 +148,10 @@ func CheckSqlTable() {
 				"Subject" VARCHAR(200)
 				);`
 			rows2, err := db.Query(sqlData)
-			rows2.Close()
 			if err != nil {
 				log.Fatalln("创建表失败：", err)
 			}
+			rows2.Close()
 			commitList := [][]string{
 				{"NotBefore", "颁发日期"},
 				{"NotAfter", "到期日期"},
@@ -160,10 +160,10 @@ func CheckSqlTable() {
 			for _, v := range commitList {
 				sqlData := fmt.Sprintf(`COMMENT ON COLUMN "tencentDomainList"."%s" IS '%s'`, v[0], v[1])
 				rows3, err := db.Query(sqlData)
-				rows3.Close()
 				if err != nil {
 					log.Fatalln("添加注释失败: ", sqlData, err)
 				}
+				rows3.Close()
 			}
 		}
 	}
@@ -201,10 +201,10 @@ func writeSql(data []byte, domain string) {
 				i.UpdatedOn,
 				i.Value)
 			rows, err := db.Query(sqlData)
-			rows.Close()
 			if err != nil {
 				log.Fatalln("sql执行失败 func writeSql(): ", err, sqlData)
 			}
+			rows.Close()
 		} else {
 			sqlData := fmt.Sprintf(`INSERT INTO "tencentDomainList"("Line","LineId","MX","MonitorStatus","Name","Domain","RecordId","Remark","Status","TTL","Type","UpdatedOn","Value") VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')`,
 				i.Line,
@@ -220,12 +220,11 @@ func writeSql(data []byte, domain string) {
 				i.Type,
 				i.UpdatedOn,
 				i.Value)
-
 			rows, err := db.Query(sqlData)
-			rows.Close()
 			if err != nil {
 				log.Fatalln("sql执行失败 func writeSql(): ", err, sqlData)
 			}
+			rows.Close()
 		}
 	}
 	log.Println("写入数据完成")
@@ -298,10 +297,10 @@ func SslCheck(domainList []string) {
 
 			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Domain"='%s'`, cert.NotBefore.In(cstSh), cert.NotAfter.In(cstSh), cert.Subject, domain)
 			rows, err := db.Query(sqlData)
-			defer rows.Close()
 			if err != nil {
 				log.Fatalln("写入表失败：", err, sqlData)
 			}
+			rows.Close()
 		}
 	}
 }

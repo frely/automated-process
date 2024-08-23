@@ -186,10 +186,10 @@ func checkSqlTable() {
 				"VoucherPayAmount" NUMERIC NOT NULL,
 				"ZoneName" VARCHAR(200) NOT NULL);`
 			rows2, err := db.Query(sqlData)
-			rows2.Close()
 			if err != nil {
 				log.Fatalln("创建表失败：", err)
 			}
+			rows2.Close()
 			commitList := [][]string{
 				{"Month", "账期"},
 				{"BusinessCode", "产品名称代码"},
@@ -204,10 +204,10 @@ func checkSqlTable() {
 			for _, v := range commitList {
 				sqlData := fmt.Sprintf(`COMMENT ON COLUMN "tencentDescribeBillSummaryByProduct"."%s" IS '%s'`, v[0], v[1])
 				rows3, err := db.Query(sqlData)
-				rows3.Close()
 				if err != nil {
 					log.Fatalln("添加注释失败: ", sqlData, err)
 				}
+				rows3.Close()
 			}
 		}
 	}
@@ -272,10 +272,10 @@ func writeSql(data []byte) {
 			i.ZoneName)
 
 		rows, err := db.Query(sqlData)
-		rows.Close()
 		if err != nil {
 			log.Fatalln("sql执行失败 func writeSql(): ", err, sqlData)
 		}
+		rows.Close()
 	}
 	log.Println("写入数据完成")
 }
