@@ -104,8 +104,15 @@ func Get() string {
 		os.Exit(0)
 	}
 
-	//查询上个月账单
-	billMonth = time.Now().AddDate(0, -1, 0).In(cstSh).Format("2006-01")
+	customMonth := os.Getenv("customMonth")
+	if customMonth != "" {
+		// 查询指定账单
+		billMonth = customMonth
+	} else {
+		//查询上个月账单
+		billMonth = time.Now().AddDate(0, -1, 0).In(cstSh).Format("2006-01")
+	}
+	log.Println("查询账期：", billMonth)
 
 	request.Offset = common.Uint64Ptr(0)
 	request.Limit = common.Uint64Ptr(1000)

@@ -90,14 +90,22 @@ func _main(args []*string) (_err error) {
 	// 判断是否出账
 	cstSh, _ := time.LoadLocation("Asia/Shanghai")
 	nowTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("20060102"))
+
 	billingcycleTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("200601") + "03")
 	if nowTime <= billingcycleTime {
 		log.Println("账单未出，请明日再试")
 		os.Exit(0)
 	}
 
-	//查询上个月账单
-	billingcycle = time.Now().AddDate(0, -1, 0).In(cstSh).Format("2006-01")
+	customMonth := os.Getenv("customMonth")
+	if customMonth != "" {
+		// 查询指定账单
+		billingcycle = customMonth
+	} else {
+		// 查询上个月账单
+		billingcycle = time.Now().AddDate(0, -1, 0).In(cstSh).Format("2006-01")
+	}
+	log.Println("查询账期：", billingcycle)
 
 	client, _err := CreateClient()
 	if _err != nil {
