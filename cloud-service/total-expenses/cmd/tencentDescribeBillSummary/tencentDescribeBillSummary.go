@@ -166,60 +166,25 @@ func checkSqlTable(data []byte) {
 				log.Println(err)
 			}
 			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."Month" IS '账期'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
+
+			commitList := [][]string{
+				{"Month", "账期"},
+				{"CashPayAmount", "现金支付金额"},
+				{"GroupKey", "产品名称ID"},
+				{"GroupValue", "产品名称"},
+				{"IncentivePayAmount", "奖励支付金额"},
+				{"RealTotalCost", "实际总成本"},
+				{"TotalCost", "总成本"},
+				{"TransferPayAmount", "转账付款金额"},
+				{"VoucherPayAmount", "凭证支付金额"}}
+			for _, commit := range commitList {
+				sqlData := fmt.Sprintf(`COMMENT ON COLUMN "%s"."%s" IS '%s'`, v, commit[0], commit[1])
+				rows3, err := db.Query(sqlData)
+				if err != nil {
+					log.Fatalln("添加注释失败: ", sqlData, err)
+				}
+				rows3.Close()
 			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."CashPayAmount" IS '现金支付金额'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."GroupKey" IS '产品名称ID'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."GroupValue" IS '产品名称'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."IncentivePayAmount" IS '奖励支付金额'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."RealTotalCost" IS '实际总成本'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."TotalCost" IS '总成本'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."TransferPayAmount" IS '转账付款金额'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
-			sqlData = fmt.Sprintf(`COMMENT ON COLUMN "%s"."VoucherPayAmount" IS '凭证支付金额'`, v)
-			rows2, err = db.Query(sqlData)
-			if err != nil {
-				log.Fatalln("sql执行失败: ", sqlData, err)
-			}
-			rows2.Close()
 		}
 	}
 }
