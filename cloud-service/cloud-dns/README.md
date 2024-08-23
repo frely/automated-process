@@ -23,11 +23,9 @@ export SecretKey="tFKFH4zCGy7"
 ```shell
 git clone https://github.com/frely/automated-process.git
 
-cd automated-process/
+cd automated-process/cloud-service/cloud-dns/
 
 go mod tidy
-
-cd cloud-service/cloud-dns/
 
 取消注释 go run main.go
 ```
