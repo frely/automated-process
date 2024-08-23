@@ -1,15 +1,15 @@
-module github.com/automated-process/total-expenses
+module github.com/frely/automated-process/cloud-service/total-expenses
 
 go 1.23.0
 
 require (
-	github.com/alibabacloud-go/bssopenapi-20171214/v5 v5.0.1
+	github.com/alibabacloud-go/bssopenapi-20171214/v5 v5.0.2
 	github.com/alibabacloud-go/darabonba-openapi/v2 v2.0.9
 	github.com/alibabacloud-go/tea v1.2.2
 	github.com/alibabacloud-go/tea-utils/v2 v2.0.6
 	github.com/lib/pq v1.10.9
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/billing v1.0.980
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.980
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/billing v1.0.989
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.989
 )
 
 require (

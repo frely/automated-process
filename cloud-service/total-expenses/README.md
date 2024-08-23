@@ -23,15 +23,30 @@ export ALIBABA_CLOUD_ACCESS_KEY_SECRET="tFKFH4zCGy7"
 export SecretId="tFKFH4"
 export SecretKey="tFKFH4zCGy7"
 ```
-2、执行程序
-```shell
-git clone https://github.com/frely/automated-process.git
+2、示例：
+```go
+package main
 
-cd automated-process/
+import (
+	"github.com/frely/automated-process/cloud-service/total-expenses/cmd/aliyunQueryBillOverview"
+	"github.com/frely/automated-process/cloud-service/total-expenses/cmd/checkEnv"
+)
 
-go mod tidy
+func main() {
+	// 阿里云
+	// 账号余额查询
+	//fmt.Println(aliyunQueryAccountBalance.Get())
 
-cd cloud-service/total-expenses/
+	// 账单总览查询
+	checkEnv.CheckAliyun()
+	aliyunQueryBillOverview.ToSql()
 
-取消注释 go run main.go
+	// 腾讯云
+	// 账号余额查询 取值CashAccountBalance
+	//fmt.Println(tencentDescribeAccountBalance.Get())
+
+	//账单总览查询
+	//checkEnv.CheckTencent()
+	//tencentDescribeBillSummaryByProduct.ToSql()
+}
 ```

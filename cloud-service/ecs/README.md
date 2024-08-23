@@ -19,13 +19,19 @@ export POSTGRES_DB="ecs"
 export ALIBABA_CLOUD_ACCESS_KEY_ID="tFKFH4"
 export ALIBABA_CLOUD_ACCESS_KEY_SECRET="tFKFH4zCGy7"
 ```
-2、执行程序
-```shell
-git clone https://github.com/frely/automated-process.git
+2、示例：
+```go
+package main
 
-cd automated-process/cloud-service/ecs
+import (
+	"github.com/frely/automated-process/cloud-service/ecs/cmd/aliyunDescribeInstances"
+	"github.com/frely/automated-process/cloud-service/ecs/cmd/checkEnv"
+)
 
-go mod tidy
-
-取消注释 go run main.go
+func main() {
+	// 阿里云
+	checkEnv.CheckAliyun()
+	aliyunDescribeInstances.CheckSqlTable()
+	aliyunDescribeInstances.Get()
+}
 ```

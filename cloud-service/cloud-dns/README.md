@@ -19,13 +19,19 @@ export POSTGRES_DB="DomainList"
 export SecretId="tFKFH4"
 export SecretKey="tFKFH4zCGy7"
 ```
-2、执行程序
-```shell
-git clone https://github.com/frely/automated-process.git
+2、示例：
+```go
+package main
 
-cd automated-process/cloud-service/cloud-dns/
+import (
+	"github.com/frely/automated-process/cloud-service/cloud-dns/cmd/checkEnv"
+	"github.com/frely/automated-process/cloud-service/cloud-dns/cmd/tencentDescribeRecordList"
+)
 
-go mod tidy
-
-取消注释 go run main.go
+func main() {
+	// 腾讯云
+	checkEnv.CheckTencent()
+	tencentDescribeRecordList.CheckSqlTable()
+	tencentDescribeRecordList.Tosql()
+}
 ```

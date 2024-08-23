@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/automated-process/cloud-dns/cmd/tencentDescribeDomainList"
+	"github.com/frely/automated-process/cloud-service/cloud-dns/cmd/tencentDescribeDomainList"
 	_ "github.com/lib/pq"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/errors"
