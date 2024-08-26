@@ -112,7 +112,7 @@ func checkSqlTable(data []byte) {
 
 	uniqueList := removeDuplicates(tableNameList)
 
-	sqlConnStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
+	sqlConnStr = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		viper.GetString("POSTGRES_USER"),
 		viper.GetString("POSTGRES_PASSWORD"),
 		viper.GetString("POSTGRES_HOST"),

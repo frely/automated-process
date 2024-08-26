@@ -130,7 +130,7 @@ func Get() string {
 
 func checkSqlTable() {
 	// 如果不存在表，则新建。
-	sqlConnStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
+	sqlConnStr = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		viper.GetString("POSTGRES_USER"),
 		viper.GetString("POSTGRES_PASSWORD"),
 		viper.GetString("POSTGRES_HOST"),
