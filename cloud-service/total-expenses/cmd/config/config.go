@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"os"
 
 	"github.com/spf13/viper"
 )
@@ -23,6 +24,9 @@ func Init() {
 	viper.SetDefault("SecretId", "")
 	viper.SetDefault("SecretKey", "")
 
+	// 自定义查询
+	viper.SetDefault("customMonth", "")
+
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
@@ -31,6 +35,7 @@ func Init() {
 			// Config file not found; ignore error if desired
 			log.Println("配置文件不存在，创建默认配置文件")
 			viper.WriteConfigAs("config.yaml")
+			os.Exit(0)
 
 		} else {
 			// Config file was found but another error was produced
