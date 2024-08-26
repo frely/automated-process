@@ -22,7 +22,7 @@ func Init() {
 			viper.SetDefault("POSTGRES_PORT", "5432")
 			viper.SetDefault("POSTGRES_USER", "postgres")
 			viper.SetDefault("POSTGRES_PASSWORD", "postgres")
-			viper.SetDefault("POSTGRES_DB", "5432")
+			viper.SetDefault("POSTGRES_DB", "dbName")
 
 			// 阿里云
 			viper.SetDefault("ALIBABA_CLOUD_ACCESS_KEY_ID", "")
