@@ -142,8 +142,6 @@ func checkSqlTable() {
 	}
 	defer db.Close()
 
-	fmt.Println(sqlConnStr)
-
 	rows, err := db.Query(`select count(*) from pg_class where relname = 'tencentDescribeBillSummaryByProduct';`)
 	defer rows.Close()
 	if err != nil {
