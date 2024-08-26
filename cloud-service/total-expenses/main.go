@@ -1,7 +1,5 @@
 package main
 
-import "github.com/frely/automated-process/cloud-service/total-expenses/cmd/tencentDescribeBillSummaryByProduct"
-
 func main() {
 	// 阿里云
 	// 账号余额查询
@@ -15,5 +13,5 @@ func main() {
 	//fmt.Println(tencentDescribeAccountBalance.Get())
 
 	//账单总览查询
-	tencentDescribeBillSummaryByProduct.ToSql()
+	//tencentDescribeBillSummaryByProduct.ToSql()
 }
