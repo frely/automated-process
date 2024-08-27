@@ -11,6 +11,7 @@ import (
 	ecs20140526 "github.com/alibabacloud-go/ecs-20140526/v4/client"
 	util "github.com/alibabacloud-go/tea-utils/service"
 	"github.com/alibabacloud-go/tea/tea"
+	"github.com/spf13/viper"
 )
 
 var resStr string
@@ -68,9 +69,9 @@ func CreateClient() (_result *ecs20140526.Client, _err error) {
 	// 建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378661.html。
 	config := &openapi.Config{
 		// 必填，请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID。
-		AccessKeyId: tea.String(os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_ID")),
+		AccessKeyId: tea.String(viper.GetString("ALIBABA_CLOUD_ACCESS_KEY_ID")),
 		// 必填，请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
-		AccessKeySecret: tea.String(os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_SECRET")),
+		AccessKeySecret: tea.String(viper.GetString("ALIBABA_CLOUD_ACCESS_KEY_SECRET")),
 	}
 	// Endpoint 请参考 https://api.aliyun.com/product/Ecs
 	config.Endpoint = tea.String("ecs.cn-qingdao.aliyuncs.com")
