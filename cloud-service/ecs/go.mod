@@ -9,6 +9,8 @@ require (
 	github.com/alibabacloud-go/tea-utils v1.4.5
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.19.0
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.991
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/cvm v1.0.991
 )
 
 require (
