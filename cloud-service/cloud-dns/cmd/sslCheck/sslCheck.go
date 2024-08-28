@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"net"
+	"net/http"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -62,24 +62,25 @@ func check(recordList []string) {
 	}
 	defer db.Close()
 
-	dialer := net.Dialer{Timeout: time.Second * 3}
-
 	for _, record := range recordList {
-		conn, err := tls.DialWithDialer(&dialer, "tcp", record+":443", nil)
+		tr := &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+		client := &http.Client{
+			Transport: tr,
+			Timeout:   10 * time.Second,
+		}
+		resp, err := client.Get("https://" + record)
+		if err != nil {
+			fmt.Println(err)
+		}
+		resp.Body.Close()
 		if err != nil {
 			log.Println("连接错误或未配置证书：", record)
 		} else {
-			cert := conn.ConnectionState().PeerCertificates[0]
-
-			// 时间信息
-			//fmt.Printf("NotBefore: %v\n", cert.NotBefore.In(cstSh))
-			//fmt.Printf("NotAfter: %v\n", cert.NotAfter.In(cstSh))
-			//fmt.Printf("Issuer: %v\n", cert.Issuer)
-			//fmt.Printf("Subject: %v\n", cert.Subject)
-
 			var cstSh, _ = time.LoadLocation("Asia/Shanghai")
 			// nowTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().In(cstSh).Format("2006-01-02 15:04:05"))
-			// endTime, _ := time.Parse("2006-01-02 15:04:05", cert.NotAfter.In(cstSh).Format("2006-01-02 15:04:05"))
+			// endTime, _ := time.Parse("2006-01-02 15:04:05", resp.TLS.PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"))
 			// d := endTime.Sub(nowTime).Hours() / 24
 			// dStr := strings.Split(strconv.FormatFloat(d, 'g', -1, 64), ".")
 			// dInt, _ := strconv.Atoi(dStr[0])
@@ -90,7 +91,11 @@ func check(recordList []string) {
 			// 	log.Printf("%s：到期时间还有%d天", record, dInt)
 			// }
 
-			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Domain"='%s'`, cert.NotBefore.In(cstSh), cert.NotAfter.In(cstSh), cert.Subject, record)
+			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Domain"='%s'`,
+				resp.TLS.PeerCertificates[0].NotBefore.In(cstSh).Format("2006-01-02 15:04:05"),
+				resp.TLS.PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"),
+				resp.TLS.PeerCertificates[0].Subject,
+				record)
 			rows, err := db.Query(sqlData)
 			if err != nil {
 				log.Fatalln("写入表失败：", err, sqlData)
