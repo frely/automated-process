@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"net/http"
+	"net"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -62,60 +62,24 @@ func check(recordList []string) {
 	}
 	defer db.Close()
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{
-			// 跳过证书验证
-			InsecureSkipVerify: true,
-			// 配置使用的协议类型
-			CipherSuites: []uint16{
-				// TLS 1.0 - 1.2 cipher suites.
-				tls.TLS_RSA_WITH_RC4_128_SHA,
-				tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA,
-				tls.TLS_RSA_WITH_AES_128_CBC_SHA,
-				tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-				tls.TLS_RSA_WITH_AES_128_CBC_SHA256,
-				tls.TLS_RSA_WITH_AES_128_GCM_SHA256,
-				tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
-				tls.TLS_ECDHE_ECDSA_WITH_RC4_128_SHA,
-				tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-				tls.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-				tls.TLS_ECDHE_RSA_WITH_RC4_128_SHA,
-				tls.TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,
-				tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-				tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-				tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-				tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
-				tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-				tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-				tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-				tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-				tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
-				tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
-				// TLS 1.3 cipher suites.
-				tls.TLS_AES_128_GCM_SHA256,
-				tls.TLS_AES_256_GCM_SHA384,
-				tls.TLS_CHACHA20_POLY1305_SHA256,
-			},
-		},
-	}
-	client := &http.Client{
-		Transport: tr,
+	dialer := &net.Dialer{
 		Timeout:   10 * time.Second,
+		KeepAlive: 30 * time.Second,
+	}
+	tlsConfig := &tls.Config{
+		InsecureSkipVerify: true,
 	}
 
 	for _, record := range recordList {
-
-		resp, err := client.Get("https://" + record)
+		log.Println("开始检查:", record)
+		resp, err := tls.DialWithDialer(dialer, "tcp", record+":443", tlsConfig)
 		if err != nil {
-			fmt.Println(err)
-		}
-		resp.Body.Close()
-		if err != nil {
-			log.Println("连接错误或未配置证书：", record)
+			log.Println("连接错误或未配置证书", err)
+			continue
 		} else {
 			var cstSh, _ = time.LoadLocation("Asia/Shanghai")
 			// nowTime, _ := time.Parse("2006-01-02 15:04:05", time.Now().In(cstSh).Format("2006-01-02 15:04:05"))
-			// endTime, _ := time.Parse("2006-01-02 15:04:05", resp.TLS.PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"))
+			// endTime, _ := time.Parse("2006-01-02 15:04:05", resp.ConnectionState().PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"))
 			// d := endTime.Sub(nowTime).Hours() / 24
 			// dStr := strings.Split(strconv.FormatFloat(d, 'g', -1, 64), ".")
 			// dInt, _ := strconv.Atoi(dStr[0])
@@ -127,9 +91,9 @@ func check(recordList []string) {
 			// }
 
 			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Domain"='%s'`,
-				resp.TLS.PeerCertificates[0].NotBefore.In(cstSh).Format("2006-01-02 15:04:05"),
-				resp.TLS.PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"),
-				resp.TLS.PeerCertificates[0].Subject,
+				resp.ConnectionState().PeerCertificates[0].NotBefore.In(cstSh).Format("2006-01-02 15:04:05"),
+				resp.ConnectionState().PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"),
+				resp.ConnectionState().PeerCertificates[0].Subject,
 				record)
 			rows, err := db.Query(sqlData)
 			if err != nil {
@@ -137,5 +101,6 @@ func check(recordList []string) {
 			}
 			rows.Close()
 		}
+		resp.Close()
 	}
 }
