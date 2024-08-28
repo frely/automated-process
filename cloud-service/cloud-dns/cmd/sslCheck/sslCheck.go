@@ -63,8 +63,7 @@ func check(recordList []string) {
 	defer db.Close()
 
 	dialer := &net.Dialer{
-		Timeout:   10 * time.Second,
-		KeepAlive: 30 * time.Second,
+		Timeout: 10 * time.Second,
 	}
 	tlsConfig := &tls.Config{
 		// 跳过证书验证
