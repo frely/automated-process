@@ -1,8 +1,14 @@
 package main
 
+import (
+	"github.com/frely/automated-process/cloud-service/cloud-dns/cmd/config"
+	"github.com/frely/automated-process/cloud-service/cloud-dns/cmd/tencentDescribeRecordList"
+)
+
 func main() {
+	config.Init()
+
 	// 腾讯云
-	//checkEnv.CheckTencent()
-	//tencentDescribeRecordList.CheckSqlTable()
-	//tencentDescribeRecordList.Tosql()
+	tencentDescribeRecordList.CheckSqlTable()
+	tencentDescribeRecordList.Tosql()
 }
