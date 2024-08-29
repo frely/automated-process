@@ -16,6 +16,7 @@ var (
 	sqlConnStr string
 )
 
+// 读取数据库，检查ssl证书到期时间并写入
 func Check() {
 	sqlConnStr = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		viper.GetString("POSTGRES_USER"),
@@ -104,7 +105,7 @@ func check(recordList []string) {
 		log.Println("开始检查:", record)
 		resp, err := tls.DialWithDialer(dialer, "tcp", record+":443", tlsConfig)
 		if err != nil {
-			log.Println("连接错误或未配置证书", err)
+			log.Println("连接错误或未配置证书:", record, err)
 			continue
 		} else {
 			var cstSh, _ = time.LoadLocation("Asia/Shanghai")
@@ -120,7 +121,7 @@ func check(recordList []string) {
 			// 	log.Printf("%s：到期时间还有%d天", record, dInt)
 			// }
 
-			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Domain"='%s'`,
+			sqlData := fmt.Sprintf(`UPDATE public."tencentDomainList" SET "NotBefore" = '%s', "NotAfter" = '%s', "Subject" = '%s' WHERE "Record"='%s'`,
 				resp.ConnectionState().PeerCertificates[0].NotBefore.In(cstSh).Format("2006-01-02 15:04:05"),
 				resp.ConnectionState().PeerCertificates[0].NotAfter.In(cstSh).Format("2006-01-02 15:04:05"),
 				resp.ConnectionState().PeerCertificates[0].Subject,
