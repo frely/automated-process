@@ -142,16 +142,17 @@ func ToSql() {
 		viper.Set("RegionId", customRegion)
 		getEcs()
 		log.Println("写入数据: RegionId", customRegion)
-		writeSql(resStr)
+		if resStr != "" {
+			writeSql(resStr)
+		}
 	} else {
 		for _, v := range aliyunDescribeRegions.Get() {
 			viper.Set("RegionId", v)
 			getEcs()
 			log.Println("写入数据: RegionId", v)
-			if resStr == "" {
-				continue
+			if resStr != "" {
+				writeSql(resStr)
 			}
-			writeSql(resStr)
 			// 限制速率避免报错
 			time.Sleep(3 * time.Second)
 		}
@@ -323,8 +324,9 @@ func _main(args []*string) (_err error) {
 	}
 
 	describeInstancesRequest := &ecs20140526.DescribeInstancesRequest{
-		RegionId: tea.String(viper.GetString("RegionId")),
-		PageSize: tea.Int32(1000),
+		RegionId:   tea.String(viper.GetString("RegionId")),
+		PageSize:   tea.Int32(100),
+		MaxResults: tea.Int32(100),
 	}
 	runtime := &util.RuntimeOptions{}
 	tryErr := func() (_e error) {
