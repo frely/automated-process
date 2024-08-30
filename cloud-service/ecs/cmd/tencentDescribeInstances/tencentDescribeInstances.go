@@ -152,7 +152,7 @@ func CheckSqlTable() {
 	}
 	defer db.Close()
 
-	rows, err := db.Query(`select count(*) from pg_class where relname = 'tencentDescribeInstances';`)
+	rows, err := db.Query(`select count(*) from pg_class where relname = 'tencentCvm';`)
 	defer rows.Close()
 	if err != nil {
 		log.Fatalln("查询表失败：", err)
@@ -165,16 +165,16 @@ func CheckSqlTable() {
 		}
 		if count == "1" {
 			log.Println("清空表")
-			sqlData := `TRUNCATE TABLE "tencentDescribeInstances"`
+			sqlData := `TRUNCATE TABLE "tencentCvm"`
 			rows2, err := db.Query(sqlData)
 			if err != nil {
 				log.Fatalln("清空表失败：", err)
 			}
 			rows2.Close()
 		} else {
-			log.Println("创建表：tencentDescribeInstances")
+			log.Println("创建表：tencentCvm")
 			sqlData := `
-				CREATE TABLE "public"."tencentDescribeInstances" (
+				CREATE TABLE "public"."tencentCvm" (
 				"InstanceId" VARCHAR(200) NOT NULL,
 				"InstanceName" VARCHAR(200) NOT NULL,
 				"InstanceState" VARCHAR(200) NOT NULL,
@@ -207,7 +207,7 @@ func CheckSqlTable() {
 				{"PublicIpAddresses", "实例公网IP地址"},
 				{"Placement", "可用区"}}
 			for _, v := range commitList {
-				sqlData := fmt.Sprintf(`COMMENT ON COLUMN "tencentDescribeInstances"."%s" IS '%s'`, v[0], v[1])
+				sqlData := fmt.Sprintf(`COMMENT ON COLUMN "tencentCvm"."%s" IS '%s'`, v[0], v[1])
 				rows3, err := db.Query(sqlData)
 				if err != nil {
 					log.Fatalln("添加注释失败: ", sqlData, err)
@@ -244,7 +244,7 @@ func writeSql(cvmList string) {
 			tmpStr := fmt.Sprintf(`["DiskSize": %s, "DiskType": %s]`, strconv.Itoa(value.DiskSize), value.DiskType)
 			strDataDisks = append(strDataDisks, tmpStr)
 		}
-		sqlData := fmt.Sprintf(`INSERT INTO "tencentDescribeInstances"("CPU","DataDisks","InstanceId","InstanceName","InstanceState","InstanceType","Memory","OsName","Placement","PrivateIpAddresses","PublicIpAddresses","SystemDisk") VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')`,
+		sqlData := fmt.Sprintf(`INSERT INTO "tencentCvm"("CPU","DataDisks","InstanceId","InstanceName","InstanceState","InstanceType","Memory","OsName","Placement","PrivateIpAddresses","PublicIpAddresses","SystemDisk") VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')`,
 			strconv.Itoa(v.CPU),
 			strDataDisks,
 			v.InstanceId,
