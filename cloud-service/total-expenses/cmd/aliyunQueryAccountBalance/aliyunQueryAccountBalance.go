@@ -3,6 +3,7 @@ package aliyunQueryAccountBalance
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -10,6 +11,7 @@ import (
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	util "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
+	"github.com/spf13/viper"
 )
 
 // Description:
@@ -21,8 +23,8 @@ import (
 // @throws Exception
 func CreateClient() (_result *bssopenapi20171214.Client, _err error) {
 	config := &openapi.Config{
-		AccessKeyId:     tea.String(os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_ID")),
-		AccessKeySecret: tea.String(os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_SECRET")),
+		AccessKeyId:     tea.String(viper.GetString("ALIBABA_CLOUD_ACCESS_KEY_ID")),
+		AccessKeySecret: tea.String(viper.GetString("ALIBABA_CLOUD_ACCESS_KEY_SECRET")),
 	}
 	config.Endpoint = tea.String("business.aliyuncs.com")
 	_result = &bssopenapi20171214.Client{}
@@ -63,7 +65,7 @@ func _main(args []*string) (_err error) {
 		}
 		// 此处仅做打印展示，请谨慎对待异常处理，在工程项目中切勿直接忽略异常。
 		// 错误 message
-		fmt.Println(tea.StringValue(error.Message))
+		log.Println(tea.StringValue(error.Message))
 		// 诊断地址
 		var data interface{}
 		d := json.NewDecoder(strings.NewReader(tea.StringValue(error.Data)))
@@ -83,7 +85,7 @@ func _main(args []*string) (_err error) {
 func Get() string {
 	err := _main(tea.StringSlice(os.Args[1:]))
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	return *resStr
 }
