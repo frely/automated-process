@@ -97,6 +97,7 @@ func ToSql() {
 		// 查询指定Region
 		viper.Set("RegionId", customRegion)
 		cvmList := getEcs()
+		log.Println("写入数据: RegionId", cvmList)
 		writeSql(cvmList)
 	} else {
 		for _, v := range tencentDescribeRegions.Get() {
@@ -105,6 +106,7 @@ func ToSql() {
 			if cvmList == "" {
 				continue
 			}
+			log.Println("写入数据: RegionId", cvmList)
 			writeSql(cvmList)
 			// 限制速率避免请求失败
 			time.Sleep(3 * time.Second)
@@ -267,5 +269,4 @@ func writeSql(cvmList string) {
 		}
 		rows.Close()
 	}
-	log.Println("写入数据完成")
 }
