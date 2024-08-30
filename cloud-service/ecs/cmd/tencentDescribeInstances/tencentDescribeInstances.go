@@ -102,6 +102,9 @@ func ToSql() {
 		for _, v := range tencentDescribeRegions.Get() {
 			viper.Set("RegionId", v)
 			cvmList := getEcs()
+			if cvmList == "" {
+				continue
+			}
 			writeSql(cvmList)
 			// 限制速率避免请求失败
 			time.Sleep(3 * time.Second)

@@ -148,6 +148,9 @@ func ToSql() {
 			viper.Set("RegionId", v)
 			getEcs()
 			log.Println("写入数据: RegionId", v)
+			if resStr == "" {
+				continue
+			}
 			writeSql(resStr)
 			// 限制速率避免报错
 			time.Sleep(3 * time.Second)
