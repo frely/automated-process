@@ -103,7 +103,8 @@ func ToSql() {
 			viper.Set("RegionId", v)
 			cvmList := getEcs()
 			writeSql(cvmList)
-			time.Sleep(1 * time.Second)
+			// 限制速率避免请求失败
+			time.Sleep(3 * time.Second)
 		}
 	}
 }
