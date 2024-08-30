@@ -186,7 +186,7 @@ func CheckSqlTable() {
 				"CPU" INTEGER NOT NULL,
 				"Memory" INTEGER NOT NULL,
 				"OsName" VARCHAR(200) NOT NULL,
-				"SystemDisk" VARCHAR(200) NOT NULL
+				"SystemDisk" VARCHAR(200) NOT NULL,
 				"DataDisks" VARCHAR(200) NOT NULL,
 				"PrivateIpAddresses" VARCHAR(200) NOT NULL,
 				"PublicIpAddresses" VARCHAR(200) NOT NULL,
