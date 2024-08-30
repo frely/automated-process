@@ -33,7 +33,7 @@ func Init() {
 			viper.SetDefault("SecretKey", "")
 
 			// 查询指定Regions
-			viper.SetDefault("customRegions", "")
+			viper.SetDefault("customRegion", "")
 
 			viper.WriteConfigAs("config.yaml")
 			os.Exit(0)
