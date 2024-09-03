@@ -65,7 +65,7 @@ func Get() string {
 	// 判断是否出账
 	cstSh, _ := time.LoadLocation("Asia/Shanghai")
 	nowTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("20060102"))
-	billMonthTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("200601") + "03")
+	billMonthTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("200601") + "02")
 	if nowTime <= billMonthTime {
 		log.Println("账单未出，请明日再试")
 		os.Exit(0)

@@ -87,7 +87,7 @@ func _main(args []*string) (_err error) {
 	cstSh, _ := time.LoadLocation("Asia/Shanghai")
 	nowTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("20060102"))
 
-	billingcycleTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("200601") + "03")
+	billingcycleTime, _ := strconv.Atoi(time.Now().In(cstSh).Format("200601") + "02")
 	if nowTime <= billingcycleTime {
 		log.Println("账单未出，请明日再试")
 		os.Exit(0)
