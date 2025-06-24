@@ -1,12 +1,14 @@
 module github.com/frely/automated-process/cloud-service/total-expenses
 
-go 1.23.0
+go 1.24.4
 
 require (
 	github.com/alibabacloud-go/bssopenapi-20171214/v5 v5.0.2
-	github.com/alibabacloud-go/darabonba-openapi/v2 v2.0.9
+	github.com/alibabacloud-go/bssopenapi-20171214/v6 v6.0.0
+	github.com/alibabacloud-go/darabonba-openapi/v2 v2.0.10
 	github.com/alibabacloud-go/tea v1.2.2
 	github.com/alibabacloud-go/tea-utils/v2 v2.0.6
+	github.com/aliyun/credentials-go v1.3.10
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.19.0
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/billing v1.0.989
@@ -14,13 +16,11 @@ require (
 )
 
 require (
-	github.com/alibabacloud-go/alibabacloud-gateway-spi v0.0.4 // indirect
-	github.com/alibabacloud-go/debug v1.0.0 // indirect
+	github.com/alibabacloud-go/alibabacloud-gateway-spi v0.0.5 // indirect
+	github.com/alibabacloud-go/debug v1.0.1 // indirect
 	github.com/alibabacloud-go/endpoint-util v1.1.0 // indirect
-	github.com/alibabacloud-go/openapi-util v0.1.0 // indirect
-	github.com/alibabacloud-go/tea-utils v1.3.1 // indirect
+	github.com/alibabacloud-go/openapi-util v0.1.1 // indirect
 	github.com/alibabacloud-go/tea-xml v1.1.3 // indirect
-	github.com/aliyun/credentials-go v1.3.1 // indirect
 	github.com/clbanning/mxj/v2 v2.5.5 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
@@ -37,7 +37,7 @@ require (
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
-	github.com/tjfoc/gmsm v1.3.2 // indirect
+	github.com/tjfoc/gmsm v1.4.1 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
