@@ -33,7 +33,8 @@ func Init() {
 			viper.SetDefault("SecretKey", "")
 
 			// 自定义查询
-			viper.SetDefault("customMonth", "")
+			viper.SetDefault("customMonth", "")                         // 阿里云账单查询自定义月份
+			viper.SetDefault("aliyunDescribeInstanceBillCustomDay", "") // 阿里云实例账单查询自定义日期
 
 			viper.WriteConfigAs("config.yaml")
 			os.Exit(0)
