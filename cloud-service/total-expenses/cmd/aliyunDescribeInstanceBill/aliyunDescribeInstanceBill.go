@@ -81,6 +81,8 @@ func _main(args []*string) (_err error) {
 		billingDate = customDay
 	}
 
+	log.Printf("billingDate: %s", billingDate)
+
 	describeInstanceBillRequest := &bssopenapi20171214.DescribeInstanceBillRequest{
 		BillingCycle: tea.String(currentMonth),
 		BillingDate:  tea.String(billingDate),
