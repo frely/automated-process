@@ -22,14 +22,6 @@ var (
 	sqlConnStr string
 )
 
-// min 返回两个整数中的较小值
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func ToSql() {
 	log.Println("开始获取阿里云实例账单数据...")
 	dataStr := Get()
