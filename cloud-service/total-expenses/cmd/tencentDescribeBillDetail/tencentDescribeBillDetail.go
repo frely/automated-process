@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -51,8 +52,25 @@ func Get() string {
 
 	request.Offset = common.Uint64Ptr(0)
 	request.Limit = common.Uint64Ptr(300)
-	request.BeginTime = common.StringPtr("2025-06-09 00:00:00")
-	request.EndTime = common.StringPtr("2025-06-09 23:59:59")
+
+	customDay := viper.GetString("billCustomDay")
+	var billingDate string
+
+	if customDay == "" {
+		cstSh, err := time.LoadLocation("Asia/Shanghai")
+		if err != nil {
+			log.Printf("加载时区失败: %v", err)
+		}
+		billingDate = time.Now().AddDate(0, 0, -1).In(cstSh).Format("2006-01-02") // 查询昨天的账单
+	} else {
+		if len(customDay) < 7 {
+			log.Printf("自定义日期格式错误，需要至少7位字符: %s", customDay)
+		}
+		billingDate = customDay
+	}
+
+	request.BeginTime = common.StringPtr(billingDate + " 00:00:00")
+	request.EndTime = common.StringPtr(billingDate + " 23:59:59")
 	// 返回的resp是一个DescribeBillDetailResponse的实例，与请求对象对应
 	response, err := client.DescribeBillDetail(request)
 	if _, ok := err.(*errors.TencentCloudSDKError); ok {
