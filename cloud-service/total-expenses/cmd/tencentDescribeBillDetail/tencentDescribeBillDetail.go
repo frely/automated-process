@@ -69,6 +69,8 @@ func Get() string {
 		billingDate = customDay
 	}
 
+	log.Printf("billingDate: %s", billingDate)
+
 	request.BeginTime = common.StringPtr(billingDate + " 00:00:00")
 	request.EndTime = common.StringPtr(billingDate + " 23:59:59")
 	// 返回的resp是一个DescribeBillDetailResponse的实例，与请求对象对应
