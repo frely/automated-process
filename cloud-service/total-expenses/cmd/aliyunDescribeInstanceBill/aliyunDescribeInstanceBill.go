@@ -100,6 +100,10 @@ func _main(args []*string) (_err error) {
 			return _err
 		}
 
+		if *res.Body.Data.TotalCount > 300 {
+			return fmt.Errorf("获取账单失败: 单次请求账单数量超过300")
+		}
+
 		// 将响应数据序列化为JSON字符串
 		jsonData, err := json.Marshal(res.Body.Data)
 		if err != nil {
