@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云监控告警列表</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <h1>云监控告警列表</h1>
+      <div class="topbar-right">
+        <p class="topbar-meta">总：<span id="total">0</span> ｜ 账号：<span id="accounts-success">0</span>/<span id="accounts-total">0</span> ｜ 更：<span id="updated-at">-</span></p>
+        <button id="refresh-btn" type="button">刷新</button>
+      </div>
+    </header>
+
+    <p id="message" class="message" aria-live="polite"></p>
+
+    <section>
+      <ul id="alert-list" class="alert-list"></ul>
+      <p id="empty" class="empty">暂无告警数据</p>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

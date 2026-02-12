@@ -1,0 +1,114 @@
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #111;
+  background: #fff;
+  line-height: 1.3;
+}
+
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #111;
+  margin-bottom: 4px;
+  padding-bottom: 3px;
+}
+
+h1 {
+  font-size: 18px;
+  margin: 0;
+  flex: 0 1 auto;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.topbar-meta {
+  margin: 0;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+button {
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  font-size: 13px;
+  padding: 2px 8px;
+  flex: 0 0 auto;
+}
+
+.message {
+  min-height: 1em;
+  margin: 0 0 5px;
+  font-size: 12px;
+}
+
+.alert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.alert-item {
+  border: 1px solid #111;
+  padding: 6px;
+  margin-bottom: 5px;
+}
+
+.alert-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 3px;
+}
+
+.alert-meta {
+  font-size: 12px;
+  margin: 0;
+}
+
+.level {
+  display: inline-block;
+  min-width: 46px;
+  text-align: center;
+  border: 1px solid #111;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 0 3px;
+  margin-right: 5px;
+}
+
+.level-high {
+  background: #111;
+  color: #fff;
+}
+
+.level-normal {
+  background: #fff;
+  color: #111;
+}
+
+.empty {
+  font-size: 13px;
+  margin-top: 6px;
+}
